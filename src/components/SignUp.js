@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import isEmpty from "validator/lib/isEmpty";
+import isEmail from "validator/lib/isEmail";
+import equals from "validator/lib/equals";
+import { showErrorMsg, showSuccessMsg } from "../helpers/message";
+import { showLoading } from "../helpers/loading";
+import axios from "axios";
 import "./Signup.css";
+import { signup } from "../api/auth";
 
 const SignUp = () => {
 	const [formData, setFormData] = useState({
-		username: "johndoe",
-		email: "jdoe@gmail.com",
+		username: "joe",
+		email: "joe@joe.com",
 		password: "abc123",
 		password2: "abc123",
 		successMsg: false,
@@ -21,8 +28,70 @@ const SignUp = () => {
 		errorMsg,
 		loading,
 	} = formData;
-	const handleSubmit = (e) => {};
-	const handleChange = (e) => {};
+	const handleSubmit = (evt) => {
+		evt.preventDefault();
+
+		// client-side validation
+		if (
+			isEmpty(username) ||
+			isEmpty(email) ||
+			isEmpty(password) ||
+			isEmpty(password2)
+		) {
+			setFormData({
+				...formData,
+				errorMsg: "All fields are required",
+			});
+		} else if (!isEmail(email)) {
+			setFormData({
+				...formData,
+				errorMsg: "Invalid email",
+			});
+		} else if (!equals(password, password2)) {
+			setFormData({
+				...formData,
+				errorMsg: "Passwords do not match",
+			});
+		} else {
+			const { username, email, password } = formData;
+			const data = { username, email, password };
+
+			setFormData({ ...formData, loading: true });
+			//console.log(formData);
+
+			signup(data)
+				.then((response) => {
+					console.log("Axios signup success: ", response);
+					setFormData({
+						username: "",
+						email: "",
+						password: "",
+						password2: "",
+						loading: false,
+						successMsg: response.data.successMessage,
+					});
+				})
+				.catch((err) => {
+					console.log("Axios signup error: ", err);
+					setFormData({
+						...formData,
+						loading: false,
+						errorMsg: err.response.data.errorMessage,
+					});
+				});
+		}
+	};
+
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		//console.log(e);
+		setFormData({
+			...formData,
+			[name]: value,
+			successMsg: "",
+			errorMsg: "",
+		});
+	};
 
 	const showSignupForm = () => (
 		<form className="signup-form" onSubmit={handleSubmit} noValidate>
@@ -92,22 +161,27 @@ const SignUp = () => {
 				</div>
 			</div>
 			{/* signup button */}
-			<div className="form-group">
-				<button type="submit" className="btn btn-success btn-block">
-					Signup
-				</button>
-			</div>
+			<div className="form-group row"></div>
 			{/* already have account */}
+			<button
+				style={{ width: "100%" }}
+				type="submit"
+				className="btn btn-success btn-block "
+			>
+				Signup
+			</button>
 			<p className="text-center text-white">
 				Have an account? <Link to="/signin">Log In</Link>
 			</p>
 		</form>
-	);
-	// to render the output
+	); // to render the output
 	return (
 		<div className="signup-container">
 			<div className="row vh-100 p-3">
 				<div className="col-md-5 mx-auto align-self-center">
+					{successMsg && showErrorMsg(successMsg)}
+					{errorMsg && showErrorMsg(errorMsg)}
+					{loading && <div className="text-center">{showLoading()}</div>}
 					{showSignupForm()}
 				</div>
 			</div>
