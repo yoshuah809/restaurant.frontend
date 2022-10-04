@@ -10,7 +10,7 @@
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center;
-	opacity: 0.8;
+	background-image: url("img-signin-bkg.jpg");
 }
 
 .home-page {

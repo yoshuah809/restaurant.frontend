@@ -6,7 +6,6 @@ import equals from "validator/lib/equals";
 import { showErrorMsg, showSuccessMsg } from "../helpers/message";
 import { showLoading } from "../helpers/loading";
 import axios from "axios";
-import "./Signup.css";
 import { signup } from "../api/auth";
 
 const SignUp = () => {
@@ -129,7 +128,7 @@ const SignUp = () => {
 				</div>
 			</div>
 			{/* password */}
-			<div className="form-group input-group mb-2">
+			<div className="form-group input-group mb-2 flex-nowrap">
 				<div className="input-group">
 					<span className="input-group-text">
 						<i className="fa fa-lock"></i>
@@ -145,7 +144,7 @@ const SignUp = () => {
 				</div>
 			</div>
 			{/* password2 */}
-			<div className="form-group input-group mb-2">
+			<div className="form-group input-group mb-2 flex-nowrap">
 				<div className="input-group">
 					<span className="input-group-text">
 						<i className="fa fa-lock"></i>
@@ -161,15 +160,12 @@ const SignUp = () => {
 				</div>
 			</div>
 			{/* signup button */}
-			<div className="form-group row"></div>
-			{/* already have account */}
-			<button
-				style={{ width: "100%" }}
-				type="submit"
-				className="btn btn-success btn-block "
-			>
-				Signup
-			</button>
+			<div className="d-grid gap-2">
+				{/* already have account */}
+				<button type="submit" className="btn btn-success">
+					Signup
+				</button>
+			</div>
 			<p className="text-center text-white">
 				Have an account? <Link to="/signin">Log In</Link>
 			</p>
