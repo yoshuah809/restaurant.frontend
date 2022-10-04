@@ -1,8 +1,32 @@
-import React from "react";
+import React, { Fragment } from "react";
+import {
+	Link,
+	Outlet,
+	useNavigate,
+	useLocation,
+	useParams,
+} from "react-router-dom";
+import { isAuthenticated, logout } from "../helpers/auth";
 
-import { Link, Outlet } from "react-router-dom";
+function withRouter(Component) {
+	// to repalce withRouter that does not exist in Router 6
+	function ComponentWithRouterProps(props) {
+		let location = useLocation();
+		let navigate = useNavigate();
+		let params = useParams();
+		return <Component {...props} router={{ location, navigate, params }} />;
+	}
+	return ComponentWithRouterProps;
+}
 
 const Header = () => {
+	let navigate = useNavigate();
+
+	const handleLogout = (e) => {
+		logout(() => {
+			navigate("/signin");
+		});
+	};
 	return (
 		<header>
 			<nav className="navbar navbar-expand-lg navbar-dark bg-success">
@@ -23,16 +47,59 @@ const Header = () => {
 					</button>
 					<div className="collapse navbar-collapse" id="navbarNav">
 						<ul className="navbar-nav ms-auto">
-							<li className="nav-item">
-								<Link to="signup" className="nav-link " aria-current="page">
-									SignUp
-								</Link>
-							</li>
-							<li className="nav-item">
-								<Link to="signin" className="nav-link">
-									Signin
-								</Link>
-							</li>
+							{!isAuthenticated() && (
+								<Fragment>
+									<li className="nav-item">
+										<Link to="signup" className="nav-link " aria-current="page">
+											SignUp
+										</Link>
+									</li>
+									<li className="nav-item">
+										<Link to="signin" className="nav-link">
+											Signin
+										</Link>
+									</li>
+								</Fragment>
+							)}
+							{isAuthenticated() && isAuthenticated().role === 0 && (
+								<Fragment>
+									<li className="nav-item">
+										<Link
+											to="user/dashboard"
+											className="nav-link "
+											aria-current="page"
+										>
+											Dashboard
+										</Link>
+									</li>
+								</Fragment>
+							)}
+							{isAuthenticated() && isAuthenticated().role === 1 && (
+								<Fragment>
+									<li className="nav-item">
+										<Link
+											to="admin/dashboard"
+											className="nav-link "
+											aria-current="page"
+										>
+											Admin Dashboard
+										</Link>
+									</li>
+								</Fragment>
+							)}
+							{isAuthenticated() && (
+								<Fragment>
+									<li className="nav-item">
+										<Link
+											to="admin/dashboard"
+											className="nav-link "
+											aria-current="page"
+										>
+											Logout
+										</Link>
+									</li>
+								</Fragment>
+							)}
 						</ul>
 					</div>
 				</div>
@@ -43,4 +110,4 @@ const Header = () => {
 	);
 };
 
-export default Header;
+export default withRouter(Header);
