@@ -20,13 +20,14 @@ function withRouter(Component) {
 }
 
 const Header = () => {
-	let navigate = useNavigate();
+	const navigate = useNavigate();
 
 	const handleLogout = (e) => {
 		logout(() => {
 			navigate("/signin");
 		});
 	};
+
 	return (
 		<header>
 			<nav className="navbar navbar-expand-lg navbar-dark bg-success">
@@ -90,13 +91,13 @@ const Header = () => {
 							{isAuthenticated() && (
 								<Fragment>
 									<li className="nav-item">
-										<Link
-											to="admin/dashboard"
-											className="nav-link "
+										<button
+											className="btn btn-link text-light text-decoration-none px-0"
 											aria-current="page"
+											onClick={handleLogout}
 										>
 											Logout
-										</Link>
+										</button>
 									</li>
 								</Fragment>
 							)}

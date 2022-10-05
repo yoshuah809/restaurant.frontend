@@ -138,8 +138,12 @@ const Signin = () => {
 				</button>
 			</div>
 			{/* already have account */}
-			<p className="text-center text-white">
-				Don't have an account? <Link to="/signup">Register here</Link>
+			<p className="text-center text-success">
+				<b> Don't have an account?</b>
+				&nbsp;
+				<Link className="text-white" to="/signup">
+					Register here
+				</Link>
 			</p>
 		</form>
 	);
