@@ -33,7 +33,7 @@ const Header = () => {
 			<nav className="navbar navbar-expand-lg navbar-dark bg-success">
 				<div className="container-fluid">
 					<Link to="/" className="navbar-brand">
-						King's Warehouse
+						<i className="fas fa-home"></i> King's Warehouse
 					</Link>
 					<button
 						className="navbar-toggler"
@@ -52,12 +52,12 @@ const Header = () => {
 								<Fragment>
 									<li className="nav-item">
 										<Link to="signup" className="nav-link " aria-current="page">
-											SignUp
+											<i className="fas fa-user-edit"></i> SignUp
 										</Link>
 									</li>
 									<li className="nav-item">
 										<Link to="signin" className="nav-link">
-											Signin
+											<i className="fas fa-sign-in-alt"></i> Signin
 										</Link>
 									</li>
 								</Fragment>
@@ -70,7 +70,7 @@ const Header = () => {
 											className="nav-link "
 											aria-current="page"
 										>
-											Dashboard
+											<i className="fas fa-home"></i> Dashboard
 										</Link>
 									</li>
 								</Fragment>
@@ -83,7 +83,7 @@ const Header = () => {
 											className="nav-link "
 											aria-current="page"
 										>
-											Admin Dashboard
+											<i className="fas fa-home"></i> Admin Dashboard
 										</Link>
 									</li>
 								</Fragment>
@@ -96,7 +96,7 @@ const Header = () => {
 											aria-current="page"
 											onClick={handleLogout}
 										>
-											Logout
+											<i className="fas fa-sign-out-alt"></i> Logout
 										</button>
 									</li>
 								</Fragment>
