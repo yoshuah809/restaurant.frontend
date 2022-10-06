@@ -54,10 +54,11 @@ const AdminCategoryModal = () => {
 				.then((response) => {
 					setLoading(false);
 					setSuccessMsg(response.data.successMessage);
+					setCategory("");
 				})
 				.catch((e) => {
 					setLoading(false);
-					setErrorMsg(e.data.errorMessage);
+					setErrorMsg(e.response.data.errorMessage);
 				});
 			setCategory("");
 		}

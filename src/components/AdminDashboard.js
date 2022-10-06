@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import AdminHeader from "./AdminHeader";
 import AdminActionBtns from "./AdminActionBtns";
 import AdminCategoryModal from "./AdminCategoryModal";
-// import AdminProductModal from './AdminProductModal';
+import AdminProductModal from "./AddProductModal";
+
 // import AdminBody from './AdminBody';
 
 const AdminDashboard = () => {
@@ -13,11 +14,9 @@ const AdminDashboard = () => {
 			<AdminActionBtns />
 
 			<AdminCategoryModal />
-			{/*
-			{adminActionBtns()}
-			
 			<AdminProductModal />
-			<AdminBody /> */}
+			{/*
+						<AdminBody /> */}
 		</section>
 	);
 };
