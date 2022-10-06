@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import isEmpty from "validator/lib/isEmpty";
 import isEmail from "validator/lib/isEmail";
 import equals from "validator/lib/equals";
-import { showErrorMsg, showSuccessMsg } from "../helpers/message";
+import { showErrorMsg } from "../helpers/message";
 import { showLoading } from "../helpers/loading";
-import axios from "axios";
 import { signup } from "../api/auth";
 
 const SignUp = () => {
