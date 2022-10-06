@@ -7,8 +7,8 @@ const AdminActionBtns = () => (
 				<div className="col-md-4 my-1">
 					<button
 						className="btn btn-outline-info btn-block"
-						data-toggle="modal"
-						data-target="#addCategoryModal"
+						data-bs-toggle="modal"
+						data-bs-target="#addCategoryModal"
 					>
 						<i className="fas fa-plus"> Add Category</i>
 					</button>
