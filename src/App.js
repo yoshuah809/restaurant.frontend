@@ -9,6 +9,7 @@ import AdminDashboard from "./components/AdminDashboard";
 import "./App.css";
 import AdminRoute from "./components/AdminRoute";
 import UserRoute from "./components/UserRoute";
+import AdminEditProduct from "./components/AdminEditProduct";
 
 function App() {
 	return (
@@ -25,11 +26,11 @@ function App() {
 				{/* protected admin routes */}
 				<Route element={<AdminRoute />}>
 					<Route exact path="/admin/dashboard" element={<AdminDashboard />} />
-					{/* <Route
-							exact
-							path='/admin/edit/product/:productId'
-							element={<AdminEditProduct />}
-						/> */}
+					<Route
+						exact
+						path="/admin/edit/product/:productId"
+						element={<AdminEditProduct />}
+					/>
 				</Route>
 
 				<Route path="*" element={<NotFound />} />

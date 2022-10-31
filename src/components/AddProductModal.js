@@ -1,27 +1,28 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState } from "react";
 import isEmpty from "validator/lib/isEmpty";
 import { showErrorMsg, showSuccessMsg } from "../helpers/message";
 import { showLoading } from "../helpers/loading";
-import { getCategories } from "../api/category";
-import { createProduct } from "../api/product";
+
 // redux
-// import { useSelector, useDispatch } from 'react-redux';
-// import { clearMessages } from '../redux/actions/messageActions';
-// import { createProduct } from '../redux/actions/productActions';
+import { useSelector, useDispatch } from "react-redux";
+import { clearMessages } from "../app/actions/messageActions";
+import { createProduct } from "../app/actions/productActions";
 
 const AdminProductModal = () => {
+	const dispatch = useDispatch();
 	/****************************
 	 * REDUX GLOBAL STATE PROPERTIES
 	 ***************************/
-	// const { loading } = useSelector(state => state.loading);
-	// const { successMsg, errorMsg } = useSelector(state => state.messages);
-	// const { categories } = useSelector(state => state.categories);
+	const { loading } = useSelector((state) => state.loading);
+	const { successMsg, errorMsg } = useSelector((state) => state.messages);
+	const { categories } = useSelector((state) => state.categories);
 
 	// const dispatch = useDispatch();
 	/****************************
 	 * COMPONENT STATE PROPERTIES
 	 ***************************/
 	const [clientSideError, setClientSideError] = useState("");
+
 	const [productData, setProductData] = useState({
 		productImage: null,
 		productName: "",
@@ -30,25 +31,7 @@ const AdminProductModal = () => {
 		productCategory: "",
 		productQty: "",
 	});
-	const [successMsg, setSuccessMsg] = useState("");
-	const [loading, setLoading] = useState(false);
-	const [errorMsg, setErrorMsg] = useState("");
-	const [categories, setCategories] = useState(null);
-	const [category, setCategory] = useState("");
 
-	useEffect(() => {
-		loadCategories();
-	}, [loading]);
-
-	const loadCategories = async () => {
-		const response = getCategories()
-			.then((response) => {
-				setCategories(response.data.categories);
-			})
-			.catch((e) => {
-				console.log(e.response.data.error);
-			});
-	};
 	const {
 		productImage,
 		productName,
@@ -62,12 +45,11 @@ const AdminProductModal = () => {
 	 * EVENT HANDLERS
 	 ***************************/
 	const handleMessages = (e) => {
-		//dispatch(clearMessages());
+		dispatch(clearMessages());
 		setClientSideError("");
 	};
 
 	const handleProductChange = (e) => {
-		console.log(e.target.value);
 		setProductData({
 			...productData,
 			[e.target.name]: e.target.value,
@@ -107,13 +89,7 @@ const AdminProductModal = () => {
 			formData.append("productCategory", productCategory);
 			formData.append("productQty", productQty);
 
-			createProduct(formData)
-				.then((response) => {
-					console.log("Server Response", response);
-				})
-				.catch((e) => {
-					console.log(e);
-				});
+			dispatch(createProduct(formData));
 			setProductData({
 				productImage: null,
 				productName: "",
@@ -122,15 +98,6 @@ const AdminProductModal = () => {
 				productCategory: "",
 				productQty: "",
 			});
-			//dispatch(createProduct(formData));
-			// setProductData({
-			// 	productImage: null,
-			// 	productName: '',
-			// 	productDesc: '',
-			// 	productPrice: '',
-			// 	productCategory: '',
-			// 	productQty: '',
-			// });
 		}
 	};
 
@@ -214,7 +181,6 @@ const AdminProductModal = () => {
 											name="productCategory"
 											id="categorySelect"
 											onChange={handleProductChange}
-											// style={{ maxWidth: "295px" }}
 										>
 											<option className="form-control" value="">
 												Choose one...
@@ -232,7 +198,7 @@ const AdminProductModal = () => {
 											type="number"
 											className="form-control"
 											min="0"
-											max="1000"
+											max="10000"
 											name="productQty"
 											value={productQty}
 											onChange={handleProductChange}

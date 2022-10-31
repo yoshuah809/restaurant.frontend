@@ -1,43 +1,35 @@
 import React, { Fragment, useState } from "react";
 import isEmpty from "validator/lib/isEmpty";
-import { createCategory } from "../api/category";
 import { showErrorMsg, showSuccessMsg } from "../helpers/message";
 import { showLoading } from "../helpers/loading";
 // // redux
-// import { useSelector, useDispatch } from "react-redux";
-// import { clearMessages } from "../redux/actions/messageActions";
-// import { createCategory } from "../redux/actions/categoryActions";
+import { useSelector, useDispatch } from "react-redux";
+import { clearMessages } from "../app/actions/messageActions";
+import { createCategory } from "../app/actions/categoryActions";
 
 const AdminCategoryModal = () => {
 	/****************************
 	 * REDUX GLOBAL STATE PROPERTIES
 	 ***************************/
-	//const { successMsg, errorMsg } = useSelector(state => state.messages);
-	//const { loading } = useSelector(state => state.loading);
+	const { successMsg, errorMsg } = useSelector((state) => state.messages);
+	const { loading } = useSelector((state) => state.loading);
 
-	//const dispatch = useDispatch();
+	const dispatch = useDispatch();
 	/****************************
 	 * COMPONENT STATE PROPERTIES
 	 ***************************/
 	const [category, setCategory] = useState("");
 	const [clientSideErrorMsg, setClientSideErrorMsg] = useState("");
-	const [successMsg, setSuccessMsg] = useState("");
-	const [loading, setLoading] = useState(false);
-	const [errorMsg, setErrorMsg] = useState("");
 
 	/****************************
 	 * EVENT HANDLERS
 	 ***************************/
 	const handleMessages = (e) => {
-		//dispatch(clearMessages());
-		setErrorMsg("");
-		setSuccessMsg("");
+		dispatch(clearMessages());
 	};
 
 	const handleCategoryChange = (e) => {
-		//dispatch(clearMessages());
-		setErrorMsg("");
-		setSuccessMsg("");
+		dispatch(clearMessages());
 		setCategory(e.target.value);
 	};
 
@@ -45,21 +37,10 @@ const AdminCategoryModal = () => {
 		e.preventDefault();
 
 		if (isEmpty(category)) {
-			setErrorMsg("Please enter a category");
+			setClientSideErrorMsg("Please enter a category");
 		} else {
-			//dispatch(createCategory(data));
 			const data = { category };
-			setLoading(true);
-			createCategory(data)
-				.then((response) => {
-					setLoading(false);
-					setSuccessMsg(response.data.successMessage);
-					setCategory("");
-				})
-				.catch((e) => {
-					setLoading(false);
-					setErrorMsg(e.response.data.errorMessage);
-				});
+			dispatch(createCategory(data));
 			setCategory("");
 		}
 	};
